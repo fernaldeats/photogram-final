@@ -1,37 +1,51 @@
 <h1>List of users</h1>
 
-<form action="/add_user" method="post">
-  <label for="browser_username">Username</label>
-  <input id="browser_username" type="text" name="input_username" placeholder="Enter a username...">
-
-  <button>Add user</button>
-</form>
-
-<hr>
-
 <table border="1">
   <tr>
-    <th>
-      ID
-    </th>
-
     <th>
       Username
     </th>
 
-    <td>
-    </td>
+    <th>Private?</th>
+    <th></th>
+    <th></th>
   </tr>
 
   <% @list_of_users.each do |a_user| %>
 
     <tr>
       <td>
-        <%= a_user.id %>
+        <%= a_user.username %>
       </td>
 
       <td>
-        <%= a_user.username %>
+        <% if a_user.private %>
+        <%= "Yes" %>
+        <% else %>
+        <%= "No" %>
+        <% end %>
+      </td>
+
+      <td>
+        <% # find a row in follow_request where sender = current_user.id AND recipient = a_user.id %>
+        <% if # current user is following a_user.username %>
+        <a href="/delete_follow_request/<%= a_user.id %>">
+              Unfollow
+            </a>
+        <% elsif # current_user has sent a follow request but status = pending %>
+        Request sent.
+        <a href="/delete_follow_request/<%= a_user.id %>">
+              Cancel
+            </a>
+        <%= # "Request sent." Cancel with action to withdraw %>
+        <% else %>
+          <form action="/insert_follow_request" method="post">
+          <input type="hidden" name="query_recipient_id" value="<%= a_user.id %>">
+          <button>
+              Follow
+              </button>
+            </form>
+        <% end %>
       </td>
 
       <td>
@@ -39,6 +53,7 @@
           Show details
         </a>
       </td>
+
     </tr>
   <% end %>
 </table>

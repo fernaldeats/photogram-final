@@ -20,6 +20,11 @@
         </a>
       </li>
 
+      <% if current_user != nil #check cookie to see if it's nil or there's a user_id %>
+       <li><a href="/users/edit"><%= current_user.username %></a></li>
+        <li><a href="/users/sign_out">Sign out</a></li>
+      
+      <% else %>
         <li>
           <a href="/users/sign_in">
             Sign in
@@ -31,9 +36,11 @@
             Sign up
           </a>
         </li>
+      <% end %>
+
     </ul>
     </nav>
-    
+
   <body>
     <%= yield %>
   </body>
