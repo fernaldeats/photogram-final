@@ -1,0 +1,44 @@
+<h1>List of users</h1>
+
+<form action="/add_user" method="post">
+  <label for="browser_username">Username</label>
+  <input id="browser_username" type="text" name="input_username" placeholder="Enter a username...">
+
+  <button>Add user</button>
+</form>
+
+<hr>
+
+<table border="1">
+  <tr>
+    <th>
+      ID
+    </th>
+
+    <th>
+      Username
+    </th>
+
+    <td>
+    </td>
+  </tr>
+
+  <% @list_of_users.each do |a_user| %>
+
+    <tr>
+      <td>
+        <%= a_user.id %>
+      </td>
+
+      <td>
+        <%= a_user.username %>
+      </td>
+
+      <td>
+        <a href="/users/<%= a_user.username %>">
+          Show details
+        </a>
+      </td>
+    </tr>
+  <% end %>
+</table>
