@@ -27,17 +27,20 @@
       </td>
 
       <td>
-        <% # find a row in follow_request where sender = current_user.id AND recipient = a_user.id %>
-        <% if # current user is following a_user.username %>
-        <a href="/delete_follow_request/<%= a_user.id %>">
-              Unfollow
-            </a>
-        <% elsif # current_user has sent a follow request but status = pending %>
-        Request sent.
-        <a href="/delete_follow_request/<%= a_user.id %>">
-              Cancel
-            </a>
-        <%= # "Request sent." Cancel with action to withdraw %>
+      <% if user_signed_in? %>
+         <% matching_requests = FollowRequest.where({ :sender_id => current_user.id, :recipient_id => a_user.id }) %>
+         <% if matching_requests.count > 0 %>
+            <% the_request = matching_requests.at(0) %>
+            <% if the_request.fetch("status") == "accepted" %>
+              <a href="/delete_follow_request/<%= a_user.id %>">
+                Unfollow
+              </a>
+            <% else %>
+            Request sent.
+            <a href="/delete_follow_request/<%= a_user.id %>">
+                  Cancel
+                </a>
+            <% end %>
         <% else %>
           <form action="/insert_follow_request" method="post">
           <input type="hidden" name="query_recipient_id" value="<%= a_user.id %>">
@@ -46,7 +49,10 @@
               </button>
             </form>
         <% end %>
-      </td>
+      <% else %>
+      <%= "" %>
+      <% end %>
+     </td>
 
       <td>
         <a href="/users/<%= a_user.username %>">
