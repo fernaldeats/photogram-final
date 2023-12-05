@@ -16,7 +16,7 @@ class Photo < ApplicationRecord
   validates :owner_id, presence: true
   validates :image, presence: true
 
-  belongs_to :poster, required: true, class_name: "User", foreign_key: "owner_id", counter_cache: :own_photos_count
+  belongs_to :poster, required: true, class_name: "User", foreign_key: "owner_id"
   has_many  :comments, class_name: "Comment", foreign_key: "photo_id", dependent: :destroy
   has_many  :likes, class_name: "Like", foreign_key: "photo_id", dependent: :destroy
   has_many :commenters, through: :comments, source: :commenter

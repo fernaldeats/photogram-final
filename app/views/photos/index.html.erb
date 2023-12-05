@@ -1,150 +1,69 @@
-<div>
-  <div>
-    <h1>
-      List of all photos
-    </h1>
-  </div>
-</div>
+ <div>
+   <h1>List of photos</h1>
+
+  <% if user_signed_in? %>
+  <form action="/insert_photo" method="post" class="form-horizontal" enctype="multipart/form-data">
+       
+      <label for="browser_input_image">
+        Image
+      </label>
+
+      <input type="file" id="browser_input_image" name="query_image" placeholder="Enter URL for the image..." class="form-control">
+    
+      <label for="caption_box">
+        Caption
+      </label>
+
+      <textarea id="caption_box" name="query_caption" rows="2" placeholder="Enter a caption for the photo"></textarea>
+    
+    <button>
+      Add photo
+    </button>
+  </form>
 
 <hr>
 
-<div>
-  <div>
-    <h2>
-      Add a new photo
-    </h2>
+<% else %>
+<% end %>
 
-    <form action="/insert_photo" method="post">
-      <div>
-        <label for="caption_box">
-          Caption
-        </label>
+<table border="1">
+  <tr>
+    <th>Image</th>
+    <th>Caption</th>
+    <th>Owner</th>
+    <th>Posted</th>
+    <th>Likes</th>
+    <th></th>
+  </tr>
 
-        <textarea id="caption_box" name="query_caption" rows="3"></textarea>
-      </div>
-
-      <div>
-        <label for="image_box">
-          Image
-        </label>
-
-        <input type="text" id="image_box" name="query_image">
-      </div>
-
-      <div>
-        <label for="owner_id_box">
-          Owner
-        </label>
-
-        <input type="text" id="owner_id_box" name="query_owner_id">
-      </div>
-
-      <div>
-        <label for="likes_count_box">
-          Likes count
-        </label>
-
-        <input type="text" id="likes_count_box" name="query_likes_count">
-      </div>
-
-      <div>
-        <label for="comments_count_box">
-          Comments count
-        </label>
-
-        <input type="text" id="comments_count_box" name="query_comments_count">
-      </div>
-
-      <button>
-        Create photo
-      </button>
-    </form>
-  </div>
-</div>
-
-<hr>
-<div>
-  <div>
-    <table border="1">
-      <tr>
-        <th>
-          ID
-        </th>
-
-        <th>
-          Caption
-        </th>
-
-        <th>
-          Image
-        </th>
-
-        <th>
-          Owner
-        </th>
-
-        <th>
-          Likes count
-        </th>
-
-        <th>
-          Comments count
-        </th>
-
-        <th>
-          Created at
-        </th>
-
-        <th>
-          Updated at
-        </th>
-
-        <th>
-        </th>
-      </tr>
-
-      <% @list_of_photos.each do |a_photo| %>
-      <tr>
-        <td>
-          <%= a_photo.id %>
-        </td>
-
-        <td>
-          <%= a_photo.caption %>
-        </td>
-
-        <td>
-          <%= a_photo.image %>
-        </td>
-
-        <td>
-          <%= a_photo.owner_id %>
-        </td>
-
-        <td>
-          <%= a_photo.likes_count %>
-        </td>
-
-        <td>
-          <%= a_photo.comments_count %>
-        </td>
-
-        <td>
-          <%= time_ago_in_words(a_photo.created_at) %> ago
-        </td>
-        <td>
-          <%= time_ago_in_words(a_photo.updated_at) %> ago
-        </td>
-
-        <td>
-          <a href="/photos/<%= a_photo.id %>">
-            Show details
-          </a>
-        </td>
-      </tr>
-      <% end %>
+ <% @list_of_photos.each do |a_photo| %>
+    <tr>
+      <td>
+        <img src="<%= a_photo.image %>" class="img-responsive">
+      </td>
+    
+      <td>
+        <%= a_photo.caption %>
+      </td>
+    
+      <td>
+        <%= a_photo.poster.username %>
+      </td>
+    
+      <td>
+        <%= time_ago_in_words(a_photo.created_at) %> ago
+      </td>
+    
+      <td>
+        <%= a_photo.likes_count %>
+      </td>
+    
+      <td>
+        <a href="/photos/<%= a_photo.id %>">
+          Show details
+        </a>
+      </td>
+    </tr>
+     <% end %>
     </table>
   </div>
-</div>
-
-<hr>
