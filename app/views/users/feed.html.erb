@@ -12,29 +12,6 @@
   <dt>Followers</dt>
   <dd>
     <%= @the_user.followers.count %>
-    <div>
-         <% matching_requests = FollowRequest.where({ :sender_id => current_user.id, :recipient_id => @the_user.id }) %>
-         <% if matching_requests.count > 0 %>
-            <% the_request = matching_requests.at(0) %>
-            <% if the_request.fetch("status") == "accepted" %>
-              <a href="/delete_follow_request/<%= @the_user.id %>">
-                Unfollow
-              </a>
-            <% else %>
-            Request sent.
-            <a href="/delete_follow_request/<%= @the_user.id %>">
-                  Cancel
-                </a>
-            <% end %>
-        <% else %>
-          <form action="/insert_follow_request" method="post">
-          <input type="hidden" name="query_recipient_id" value="<%= @the_user.id %>">
-          <button>
-              Follow
-              </button>
-            </form>
-        <% end %>
-    </div>
   </dd>
 
   <dt>Following</dt>
@@ -58,7 +35,7 @@
   </ul>
 </nav>
 
-<h2>Own photos (<%= @the_user.own_photos.count %>)</h2>
+<h2>Feed (<%= @the_user.feed.count %>)</h2>
 
 <table border="1">
   <tr>
@@ -86,7 +63,7 @@
     </th>
   </tr>
 
-  <% @the_user.own_photos.each do |a_photo| %>
+  <% @the_user.feed.each do |a_photo| %>
 
     <tr>
       <td>

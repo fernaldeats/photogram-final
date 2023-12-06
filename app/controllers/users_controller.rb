@@ -17,6 +17,39 @@ class UsersController < ApplicationController
     end
   end
 
+  def liked
+    @username = params.fetch("username")
+    @the_user = User.where(username: @username).first
+
+    if @the_user == nil
+      redirect_to("/404")
+    else
+      render(template: "users/liked")
+    end
+  end
+
+  def feed
+    @username = params.fetch("username")
+    @the_user = User.where(username: @username).first
+
+    if @the_user == nil
+      redirect_to("/404")
+    else
+      render(template: "users/feed")
+    end
+  end
+
+  def discover
+    @username = params.fetch("username")
+    @the_user = User.where(username: @username).first
+
+    if @the_user == nil
+      redirect_to("/404")
+    else
+      render(template: "users/discover")
+    end
+  end
+
   def create
     my_input_username = params.fetch("input_username")
     new_user = User.new

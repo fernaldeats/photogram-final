@@ -35,28 +35,33 @@ class User < ApplicationRecord
          
          has_many  :received_follow_requests, class_name: "FollowRequest", foreign_key: "recipient_id", dependent: :destroy
          has_many  :sent_follow_requests, class_name: "FollowRequest", foreign_key: "sender_id", dependent: :destroy
-         
-         has_many :commented_photos, through: :comments, source: :photo
-         has_many :liked_photos, through: :likes, source: :photo
-
-         def accepted_sent_follow_requests
-          my_sent_follow_requests = self.sent_follow_requests
-          
-          matching_follow_requests = my_sent_follow_requests.where({ :status => "accepted" })
-          
-          return matching_follow_requests
-        end
-
-        def accepted_received_follow_requests
-          my_received_follow_requests = self.received_follow_requests
+         has_many :accepted_sent_follow_requests, -> { where(status: 'accepted') }, class_name: "FollowRequest", foreign_key: "sender_id"
+         has_many :accepted_received_follow_requests, -> { where(status: 'accepted') }, class_name: "FollowRequest", foreign_key: "recipient_id"
        
-           matching_follow_requests = my_received_follow_requests.where({ :status => "accepted" })
+         # Define the :followers and :leaders associations through the accepted follow requests
+         has_many(:followers, through: :accepted_received_follow_requests, source: :sender)
+         has_many(:leaders, through: :accepted_sent_follow_requests, source: :recipient)
        
-           return matching_follow_requests
-         end
+         # ... [other code] ...
+  
+         has_many(:commented_photos, through: :comments, source: :photo)
+         has_many(:liked_photos, through: :likes, source: :photo)
 
-         has_many(:followers, through: :accepted_received_follow_requests, source: :user)
-         has_many(:leaders, through: :accepted_sent_follow_requests, source: :user)
+        # def accepted_sent_follow_requests
+         # my_sent_follow_requests = self.sent_follow_requests
+          
+         # matching_follow_requests = my_sent_follow_requests.where({ :status => "accepted" })
+          
+         # return matching_follow_requests
+        #end
+
+        #def accepted_received_follow_requests
+         # my_received_follow_requests = self.received_follow_requests
+       
+          # matching_follow_requests = my_received_follow_requests.where({ :status => "accepted" })
+       
+          # return matching_follow_requests
+        # end
          
          def feed
           array_of_photo_ids = Array.new
@@ -92,11 +97,10 @@ class User < ApplicationRecord
           matching_photos = Photo.where({ :id => array_of_photo_ids })
       
           return matching_photos
+        
         end
          
          # has_many(:feed, through: :leaders.own_photos, source: :photo)
          # has_many(:discover, through: :leaders.liked_photos, source: :photo)
 
-        
-
-end
+      end
