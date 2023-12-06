@@ -83,6 +83,7 @@ gem "http"
 gem "sqlite3", "~> 1.4"
 gem "table_print"
 gem "simple_form" # necessary for devise view templates
+gem "carrierwave"
 
 group :development do
   gem "annotate"
@@ -106,5 +107,4 @@ group :test do
   gem "draft_matchers"
   gem "rspec-html-matchers"
   gem "webmock"
-  gem "carrierwave"
 end

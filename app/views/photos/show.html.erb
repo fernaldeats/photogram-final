@@ -6,7 +6,11 @@
   <dl>
   <dt>Image</dt>
   <dd>
-    <img src="<%= @the_photo.image %>">
+    <% if @the_photo.image.file.present? %>
+    <img src="<%= @the_photo.image_url %>" class="img-responsive" width="300">
+    <% else %>
+    <img src="<%= CGI.unescape(@the_photo.image.identifier) %>" width="300">
+    <% end %>
   </dd>
 
   <dt>Caption</dt>

@@ -39,7 +39,11 @@
  <% @list_of_photos.each do |a_photo| %>
     <tr>
       <td>
-        <img src="<%= a_photo.image %>" class="img-responsive">
+          <% if a_photo.image.file.present? %>
+          <img src="<%= a_photo.image_url %>" class="img-responsive" width="300">
+          <% else %>
+          <img src="<%= CGI.unescape(a_photo.image.identifier) %>" width="300">
+          <% end %>
       </td>
     
       <td>

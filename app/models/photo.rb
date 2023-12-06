@@ -12,7 +12,14 @@
 #  owner_id       :integer
 #
 class Photo < ApplicationRecord
-
+  mount_uploader :image, ImageUploader
+  #def image_url
+   # if image.present? && !image.url.include?("https")
+    #  image.url
+    #else
+     # image
+    #end
+  #end
   validates :owner_id, presence: true
   validates :image, presence: true
 
