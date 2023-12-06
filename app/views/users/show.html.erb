@@ -17,12 +17,12 @@
          <% if matching_requests.count > 0 %>
             <% the_request = matching_requests.at(0) %>
             <% if the_request.fetch("status") == "accepted" %>
-              <a href="/delete_follow_request/<%= @the_user.id %>">
+              <a href="/delete_follow_request/<%= the_request.id %>">
                 Unfollow
               </a>
             <% else %>
             Request sent.
-            <a href="/delete_follow_request/<%= @the_user.id %>">
+            <a href="/delete_follow_request/<%= the_request.id %>">
                   Cancel
                 </a>
             <% end %>

@@ -46,6 +46,12 @@
   </div>
 <% end %>
 
+<% if flash[:alert] %>
+  <div class="notification">
+    <%= flash[:alert] %>
+  </div>
+<% end %>
+
     </nav>
 
   <body>

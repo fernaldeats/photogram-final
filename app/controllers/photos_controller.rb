@@ -1,6 +1,6 @@
 class PhotosController < ApplicationController
   skip_before_action(:authenticate_user!, { :only => [:index] })
-  
+
   def index
     matching_photos = Photo.all
 
@@ -17,6 +17,12 @@ class PhotosController < ApplicationController
     @the_photo = matching_photos.at(0)
 
     render({ :template => "photos/show" })
+  end
+
+  def authenticate_user!
+    unless user_signed_in?
+      redirect_to(new_user_session_path, { :alert => "You need to sign in or sign up before continuing." })
+    end
   end
 
   def create
